@@ -1,0 +1,94 @@
+{% extends 'base.html ' %}
+
+{% block body %}
+
+<div class="container">
+
+    {% if page == 'cart' %}
+    <div class="container px-4 mt-3 mb-3">
+        <div class="row gx-5">
+            <div class="col">
+                <div class="p-3 border bg-light">Total Items: {{items}}</div>
+            </div>
+            <div class="col">
+                <div class="p-3 border bg-light">Total Amount: {{price}} </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" onclick="finishCheckout()"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Proceed To Checkout</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Order Places Successfully</h5>
+                    <button type="button" onclick ="location.reload()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for item in data %}
+                    <li> {{item.product_id.name}}</li>
+                   
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick ="location.reload()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% endif %}
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+        {% for item in data %}
+        <div class="col">
+            <div id="{{item.product_id.id}}" class="product-id">
+
+            </div>
+            <div class="card h-100">
+                <img src="/media/{{item.product_id.img}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.product_id.name}}</h5>
+                    <p class="card-text">{{item.product_id.desc}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted"><strong>₹ {{item.product_id.price}}</strong></small>
+                </div>
+                {% if page == 'wishlist' %}
+                <a href={% url 'add_to_cart' item.product_id.id %}>Add To Cart</a>
+                <a href={% url 'remove_wishlist' item.product_id.id %}>Remove Item</a>
+                {% endif %}
+                <a href={% url 'remove_cart' item.product_id.id %}>Remove Item</a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<script>
+    function finishCheckout() {
+        var elements = document.getElementsByClassName("product-id");
+        var idList = [];
+        for (var i = 0, len = elements.length; i < len; i++) {
+            console.log(elements[i].id);
+            idList.push(elements[i].id);
+        }
+        fetch('/app/checkout/', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({data: idList})
+          }).then(res => res.json())
+            .then(res => console.log(res));
+    }
+
+</script>
+
+
+{% endblock %}

@@ -14,10 +14,17 @@
     <title>BuyIt</title>
 </head>
 
-
-
 <body>
+  
    <div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">BuyIt</a>
@@ -27,20 +34,24 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Cart</a>
+                <a class="nav-link active" aria-current="page" href={% url 'cart' %}>Cart</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Orders</a>
+                <a class="nav-link active" aria-current="page" href={% url 'wishlists' %}>My Wishlists</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'orders' %}?user={{user}}">Orders</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {{user}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href={% url 'logout' %}>Logout</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                  <li><a class="dropdown-item" href="#">Cart</a></li>
+                  <li><a class="dropdown-item" href="#">My Orders</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><a class="dropdown-item" href={% url 'logout' %}>Logout</a></li>
                 </ul>
               </li>
             </ul>

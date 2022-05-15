@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
 # Create your views here.
 def register_user(request):
     form = CreateUserForm()
@@ -25,7 +26,7 @@ def login_user(request):
         user = authenticate(request,username=username,password=password)
         if user is not None:
             login(request,user)
-            print('ok------------')
+            messages.success(request, f'Logged in as: {username}')
             return redirect('home')
     return render(request,'login.html')
 
