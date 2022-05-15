@@ -17,3 +17,47 @@
     .nav-link:hover{
     border: 1px solid rgb(51, 98, 225);
 }
+.custom-card{
+    border: none;
+    box-shadow: 2px 2px 20px -10px rgb(138, 138, 138);
+    border-radius: 10px;
+}
+.nav-color{
+    background-color: #343a40 ;
+    color: white;
+}
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+.card{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.img-height{
+    height: 200px !important;
+    width: 100%;
+}
+.wish-btn{
+    background: none;
+    border: none;
+}
+.fa{
+    font-size: 20px;
+}
+form > p > span{
+    display: none;
+}
+form > ul{
+    display: none;
+}
+form > p{
+    display: flex;
+    flex-direction: column;
+}
+.form-con{
+    width: 40%;
+    padding: 20px;
+    margin-top: 50px;
+    box-shadow: 2px 2px 20px -10px rgb(138, 138, 138);
+    border-radius: 10px;
+}
