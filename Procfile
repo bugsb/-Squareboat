@@ -1,1 +1,1 @@
-web: gunicorn src.BuyIt.wsgi
+web: gunicorn BuyIt.wsgi
