@@ -43,11 +43,12 @@ def checkout(request):
         user = request.user.username
         user_object = Services.get_user_object(user)
         for product_id in data:
-            Services.add_order(user_id=user_object, order_amount=1,
+            order = Services.add_order(user_id=user_object, order_amount=1,
                                product_id=product_id, payment_status=True)
             cart = Services.get_cart_object(product_id)
             cart.delete()
-            messages.success(request, message="Order Placed Successfully")
+            print(order.order_id)
+            messages.warning(request, message=f"Order Placed Successfully with order id {order.order_id} ")
         return HttpResponse({'message': "Checkout Success"})
 
 @login_required(login_url='login')

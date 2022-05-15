@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.models import User
 from api.models import Product, Order, Wishlist, Cart
 
@@ -21,6 +22,8 @@ class Services:
         product = Product.objects.get(id=product_id)
         order = Order.objects.create(product_id=product,order_amount=1,ordered_by=user_id,payment_status=True)
         order.save()
+        return order
+        
     
     @staticmethod
     def add_item_to_wishlist(user,product_id):
