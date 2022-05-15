@@ -22,7 +22,6 @@ def orders(request):
     context = {
         'data': orders
     }
-    print(context)
     return render(request, 'orders.html', context=context)
 
 @login_required(login_url='login')
@@ -33,21 +32,20 @@ def wishlists(request):
         'data': wishlists,
         'page': 'wishlist'
     }
-    print(context)
     return render(request, 'cart.html', context=context)
 
 
 @csrf_exempt
-def checkout(requests):
-    if requests.body:
-        data = json.loads(requests.body)['data']  # json data from Js method
+def checkout(request):
+    if request.body:
+        data = json.loads(request.body)['data']  # json data from Js method
 
-        user = requests.user.username
-        user_object = Services.get_model_object(user,object_type="user")
+        user = request.user.username
+        user_object = Services.get_user_object(user)
         for product_id in data:
             Services.add_order(user_id=user_object, order_amount=1,
                                product_id=product_id, payment_status=True)
-            cart = Services.get_model_object(user, object_type="cart")
+            cart = Services.get_cart_object(product_id)
             cart.delete()
             messages.success(request, message="Order Placed Successfully")
         return HttpResponse({'message': "Checkout Success"})
@@ -75,12 +73,11 @@ def remove_wishlist(request, product_id):
     messages.success(request, 'Item Removed from wishlist.')
     return redirect('wishlists')
 
+
 @login_required(login_url='login')
 def remove_cart(request, product_id):
     user = request.user.username
-    cart = Cart.objects.select_related('added_by').get(
-        added_by__username=user, product_id__id=product_id)
-    cart.delete()
+    Services.remove_from_cart(user, product_id)
     messages.success(request, 'Item Removed from cart.')
     return redirect('cart')
 

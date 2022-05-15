@@ -7,10 +7,7 @@ class Services:
     def remove_from_wishlist(added_by,product_id):
         wishlist = Wishlist.objects.select_related('added_by').get(
                 added_by__username=added_by, product_id__id=product_id)
-
-        print(wishlist)
         wishlist.delete()
-        print('delete ho gya')
 
     @staticmethod
     def add_product_to_cart(user,product_id):
@@ -24,7 +21,6 @@ class Services:
         product = Product.objects.get(id=product_id)
         order = Order.objects.create(product_id=product,order_amount=1,ordered_by=user_id,payment_status=True)
         order.save()
-        print('order saved')
     
     @staticmethod
     def add_item_to_wishlist(user,product_id):
@@ -45,6 +41,15 @@ class Services:
         return products
     
     @staticmethod
+    def remove_from_cart(user,product_id):
+        try:
+            Cart.objects.select_related('added_by').get(
+                added_by__username=user, product_id__id=product_id)
+            cart.delete()
+        except:
+            pass
+
+    @staticmethod
     def get_orders_for_user(user):
         orders = Order.objects.select_related(
         'ordered_by').filter(ordered_by__username=user)
@@ -57,12 +62,13 @@ class Services:
         return wishlists
     
     @staticmethod
-    def get_model_object(user,object_type):
-        if object_type == "user":
-            user_object = User.objects.get(username=user)
-            return user_object
-        elif object_type == "cart":
-            cart_object = Cart.objects.get(product_id=product_id)
-            return cart_object
+    def get_user_object(user):
+        user_object = User.objects.get(username=user)
+        return user_object
+
+    @staticmethod
+    def get_cart_object(product_id):
+        cart_object = Cart.objects.get(product_id=product_id)
+        return cart_object
     
   

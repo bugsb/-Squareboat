@@ -27,7 +27,6 @@ def get_orders(request):
         user_id = request.GET['user']
     except KeyError:
         return Response(status=400,data={"Invalid query parameters"})
-    print(user_id)
     orders = Order.objects.select_related('ordered_by').filter(ordered_by__username=user_id)
     serializer = OrderSerializer(orders,many=True)
     return Response(data=serializer.data)
@@ -38,7 +37,6 @@ def fetch_wishlist(request):
         user_id = request.GET['user']
     except KeyError:
         return Response(status=400,data={"Invalid query parameters"})
-    print(user_id)
     orders = Wishlist.objects.select_related('added_by').filter(added_by__username=user_id)
     serializer = WishlistSerializer(orders,many=True)
     return Response(data=serializer.data)

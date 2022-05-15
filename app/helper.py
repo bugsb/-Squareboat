@@ -13,7 +13,7 @@ def is_item_in_wishlist(user,product_id):
     items = Wishlist.objects.select_related('added_by').filter(
         added_by__username=user, product_id__id=product_id)
     
-    if items.first() is None:
+    if items.first() is not None:
         return False
     else:
         return True
