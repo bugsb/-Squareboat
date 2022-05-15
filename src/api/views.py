@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.response import Response
+from api.models import Product,Order,Wishlist
 from rest_framework.decorators import api_view
 from .serializers import ProductSerializer,OrderSerializer,WishlistSerializer
-from api.models import Product,Order,Wishlist
-# Create your views here.
+
+
 @api_view(['GET'])
 def fetch_all_products(request):
     items = Product.objects.all()

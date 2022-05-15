@@ -16,7 +16,7 @@
       {% endfor %}
       {% endif %}
   </div>
-    <form action="" method="post" autocomplete="off">
+    <form action="" method="post" class="form-con w-100 mt-0" autocomplete="off">
       {% csrf_token %}
         <div class="mb-3">
           <label for="UserIdInputEmail1" class="form-label"><b>User Id<b></label>
@@ -26,8 +26,12 @@
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input type="password" class="form-control" name="password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-success col-6 me-2">Login</button>
+          <a class="btn btn-primary col-6" href={% url 'register' %}>Register</a>
+        </div>
+       
       </form>
-      <a href={% url 'register' %}>Register</a>
+    
 </div>
 {% endblock %}

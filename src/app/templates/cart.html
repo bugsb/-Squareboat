@@ -5,18 +5,21 @@
 <div class="container">
 
     {% if page == 'cart' %}
-    <div class="container px-4 mt-3 mb-3">
-        <div class="row gx-5">
-            <div class="col">
-                <div class="p-3 border bg-light">Total Items: {{items}}</div>
+    <div class="container  mt-3 mb-3">
+        <div class="row ">
+            <div class="col-4">
+                <div class="p-3 custom-card">Total Items: {{items}}</div>
             </div>
-            <div class="col">
-                <div class="p-3 border bg-light">Total Amount: {{price}} </div>
+            <div class="col-4">
+                <div class="p-3 custom-card">Total Amount: {{price}} </div>
+            </div>
+            <div class="col-4 d-flex align-items-center">
+                <button type="button" onclick="finishCheckout()"  class="btn btn-primary w-100 h-100" data-bs-toggle="modal" data-bs-target="#exampleModal"> Proceed To Checkout</button>
             </div>
         </div>
     </div>
 
-    <button type="button" onclick="finishCheckout()"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Proceed To Checkout</button>
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -48,20 +51,25 @@
             <div id="{{item.product_id.id}}" class="product-id">
 
             </div>
-            <div class="card h-100">
-                <img src="/media/{{item.product_id.img}}" class="card-img-top" alt="...">
+            <div class="card ">
+                <img src="/media/{{item.product_id.img}}" class="img-fluid img-height" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{item.product_id.name}}</h5>
                     <p class="card-text">{{item.product_id.desc}}</p>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer d-flex justify-content-between">
                     <small class="text-muted"><strong>₹ {{item.product_id.price}}</strong></small>
+                    <div>
+                        {% if page == 'wishlist' %}
+                        <a href={% url 'add_to_cart' item.product_id.id %} class="fa fa-shopping-cart me-2"></a>
+                        <a href={% url 'remove_wishlist' item.product_id.id %} class="fa fa-trash"></a>
+                        {% else %}
+                        <a href={% url 'remove_cart' item.product_id.id %} class="fa fa-trash"></a>
+                        {% endif %}
+                    </div>
                 </div>
-                {% if page == 'wishlist' %}
-                <a href={% url 'add_to_cart' item.product_id.id %}>Add To Cart</a>
-                <a href={% url 'remove_wishlist' item.product_id.id %}>Remove Item</a>
-                {% endif %}
-                <a href={% url 'remove_cart' item.product_id.id %}>Remove Item</a>
+             
+
             </div>
         </div>
         {% endfor %}

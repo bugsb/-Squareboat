@@ -8,8 +8,8 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
         {% for item in data %}
         <div class="col">
-            <div class="card h-100">
-                <img src="/media/{{item.product_id.img}}" class="card-img-top" alt="...">
+            <div class="card ">
+                <img src="/media/{{item.product_id.img}}" class="img-fluid img-height" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{item.product_id.name}}</h5>
                     <p class="card-text">T{{item.product_id.desc}}</p>
