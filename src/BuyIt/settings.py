@@ -1,14 +1,16 @@
-from pathlib import Path
 import os
+from pathlib import Path
 from django.db.backends.mysql.base import DatabaseWrapper
+import django_heroku
+import dj_database_url
+from decouple import config
+
+
 DatabaseWrapper.data_types['DateTimeField']='datetime'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-o+%o*jd6ub-)be&y0n+2!a@$i8pxg7u(ebfknncg#wsite=-fx'
@@ -42,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'BuyIt.urls'
@@ -121,8 +124,9 @@ USE_TZ = True
 	
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,  'static')
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFileStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+django_heroku.settings(locals())

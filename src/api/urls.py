@@ -1,5 +1,6 @@
-from django.urls import path,include
 from .import views
+from django.urls import path,include
+
 
 urlpatterns = [
     path('fetch_all_products/', views.fetch_all_products,name='get'),
