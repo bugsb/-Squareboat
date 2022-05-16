@@ -2,7 +2,18 @@
 
 {% block body %}
 
-<form method="POST" class="container form-con" action = "">
+<div class="container container form-con">
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+        
+      {% endfor %}
+      {% endif %}
+
+<form method="POST" " action = "">
     {% csrf_token %}
     {{form.as_p}}
 
@@ -10,7 +21,7 @@
         <input type="submit" class="btn btn-success col-6 me-2" value="Register" name="submit">
         <a class="btn btn-primary col-6" href={% url 'login' %}>Login</a>
     </div>
-
+</div>
 </form>
 
 

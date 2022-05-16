@@ -6,6 +6,7 @@
 <div class="container mt-5 mb-5">
 
   <div class="row ">
+    {% if data %}
     {% for item in data %}
     <div class="col-4">
       <div class="card">
@@ -17,14 +18,16 @@
             <a href={% url 'add_to_cart' item.id %}><button type="button" class="btn btn-secondary">Add To Cart</button></a>
             <a href={% url 'add_to_wishlist' item.id %}><button type="button" class="wish-btn" >&#10084;</button></a>
           </div>
-
         </div>
-
-
       </div>
-
     </div>
     {% endfor %}
+    {% else %}
+  </div>
+  <div class="alert alert-secondary" role="alert">
+    <strong>It's Lonely In Here &#x1F615</strong>
+  </div>
+    {% endif %}
   </div>
 
 </div>

@@ -23,7 +23,11 @@ class Services:
         order = Order.objects.create(product_id=product,order_amount=1,ordered_by=user_id,payment_status=True)
         order.save()
         return order
-        
+
+    @staticmethod
+    def search_product(name):
+        products = Product.objects.filter(name__icontains=name)
+        return products
     
     @staticmethod
     def add_item_to_wishlist(user,product_id):

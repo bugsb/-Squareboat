@@ -11,9 +11,13 @@ def register_user(request):
         if form.is_valid():
             form.save()
             messages.success(request, message="User Registration Success")
-            return redirect('login')
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
+            return redirect('home')
         else:
-            messages.success(request, message="User Registration Failed")
+            messages.success(request, message="User not registered,passwork weak or duplicate entry")
     context = {
         'form':form
     }

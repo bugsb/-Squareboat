@@ -15,6 +15,15 @@ def home(request):
     }
     return render(request, 'home.html', context=context)
 
+def search(request):
+    if request.method == 'POST':
+        key = request.POST.get('key')
+        products = Services.search_product(key)
+        context = {
+            'data':products
+        }
+        return render(request, 'home.html', context=context)
+
 @login_required(login_url='login')
 def orders(request):
     user = request.user.username
